@@ -1,12 +1,19 @@
 const express = require("express");
-const app = express();
+const exphbs = require("express-handlebars");
 const morgan = require("morgan");
-const port = 5500;
 const path = require("path");
 const fs = require("fs");
+
+const app = express();
+const port = 5500;
+
+app.engine("handlebars", exphbs());
+
 const html_path = path.join(__dirname, "index.html");
-var html_content = undefined;
+let html_content = undefined;
+
 app.use(morgan("combined"));
+
 fs.readFile(html_path, "utf8", (err, data) => {
   if (err) {
     console.log(err);
@@ -14,7 +21,11 @@ fs.readFile(html_path, "utf8", (err, data) => {
   }
   html_content = data;
 });
+
 app.get("/", (req, res) => {
-  res.send(html_content);
+  res.send(html_content || "<h1>Loading...</h1>");
 });
-app.listen(port);
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
