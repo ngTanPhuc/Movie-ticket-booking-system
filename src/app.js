@@ -7,6 +7,7 @@ const {connectDB} = require("./models/connect_sql");
 require("dotenv").config();
 app.use(morgan("common"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 connectDB();
 router(app);
 app.listen(port, () => {
