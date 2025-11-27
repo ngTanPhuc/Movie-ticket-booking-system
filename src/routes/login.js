@@ -1,8 +1,8 @@
 const express = require("express");
 const loginRouter = express.Router();
-const loginController = require("../controllers/cinema");
+const loginController = require("../controllers/login");
 // Define routes here
 loginRouter.get("/", loginController.show);
-loginRouter.post("/:username/:password", loginController.login);
+loginRouter.post("/", loginController.login);
 
-module.exports = cinemaRouter;
+module.exports = loginRouter;
