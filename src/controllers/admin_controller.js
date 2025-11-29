@@ -12,8 +12,6 @@ class AdminController {
     // movies CRUD
     async createMovie(req, res){
         try {
-            console.log("BODY CỦA REQUEST");
-            console.log(req.body);
             const {
                 title,
                 duration,
@@ -25,7 +23,7 @@ class AdminController {
                 status,
                 summary
             } = req.body;
-            const result = await AdminService.createMovie(
+            await AdminService.createMovie(
                 title,
                 duration,
                 releaseDate,
@@ -44,7 +42,7 @@ class AdminController {
     async updateMovie(req, res){
         try {
             const id = req.params.id;
-            const result = await AdminService.updateMovie(
+            await AdminService.updateMovie(
                 id,
                 req.body.title,
                 req.body.duration,
@@ -56,6 +54,75 @@ class AdminController {
                 req.body.status,
                 req.body.summary
             )
+            res.json({ success: true });
+        } catch (error) {
+            res.status(500).json({success: false, error: error.message});
+        }
+    }
+    async deleteMovie(req, res){
+        try {
+            const id = req.params.id;
+            await AdminService.deleteMovie(id);
+            res.json({ success: true });
+        } catch (error) {
+            res.status(500).json({success: false, error: error.message});
+        }
+    }
+    // cinemas CRUD
+    async createCinema(req, res){
+        try {
+            const { name, status, address } = req.body;
+            await AdminService.createCinema(name, status, address);
+            res.json({ success: true });
+        } catch (error) {
+            res.status(500).json({success: false, error: error.message});
+        }
+    }
+    async updateCinema(req, res){
+        try {
+            const id = req.params.id;
+            const { name, status, address } = req.body;
+            await AdminService.updateCinema(id, name, status, address);
+            res.json({ success: true });
+        } catch (error) {
+            res.status(500).json({success: false, error: error.message});
+        }
+    }
+    async deleteCinema(req, res){
+        try {
+            const id = req.params.id;
+            await AdminService.deleteCinema(id);
+            res.json({ success: true });
+        } catch (error) {
+            res.status(500).json({success: false, error: error.message});
+        }
+    }
+    
+    // showtime CRUD
+    async createShowtime(req, res){
+        try {
+            const { roomId, movieId, date, startTime, endTime } = req.body;
+            console.log("___ ctrl");
+            await AdminService.createShowtime(roomId, movieId, date, startTime, endTime);
+            res.json({ success: true });
+        } catch (error) {
+            res.status(500).json({success: false, error: error.message});
+        }
+    }
+    async updateShowtime(req, res){
+        try {
+            const id = req.params.id;
+            const { roomId, movieId, date, startTime, endTime } = req.body;
+            await AdminService.updateShowtime(id, roomId, movieId, date, startTime, endTime);
+            res.json({ success: true });
+        } catch (error) {
+            res.status(500).json({success: false, error: error.message});
+        }
+    }
+    async deleteShowtime(req, res){
+        try {
+            const id = req.params.id;
+            await AdminService.deleteShowtime(id);
             res.json({ success: true });
         } catch (error) {
             res.status(500).json({success: false, error: error.message});
