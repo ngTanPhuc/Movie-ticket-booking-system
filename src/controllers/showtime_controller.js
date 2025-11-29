@@ -1,4 +1,4 @@
-const ShowtimeService = require("../services/showtime_service")
+const ShowtimeService = require("../services/showtime_service");
 class ShowtimeController {
     async getAll(req, res){
         try {

@@ -1,17 +1,5 @@
 const BookingService = require("../services/booking_service")
 class BookingController {
-    // async getAll(req, res){
-    //     try {
-    //         const movie_id = req.query.movie_id;
-    //         const date = req.query.date || null;
-    //         const cinema_id = req.query.cinema_id || null;
-
-    //         const bookings = await BookingService.getAll(movie_id, date, cinema_id);
-    //         res.json({ success: true, data: bookings });
-    //     } catch (error) {
-    //         res.status(500).json({success: false, error: error.message});
-    //     }
-    // }
     async createBooking(req, res) {
         try{
             const userPhone = req.user.phone;  // đây có phải cách lấy param từ JWT token?
