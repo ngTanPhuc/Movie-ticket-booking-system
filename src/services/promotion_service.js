@@ -1,6 +1,6 @@
 const { executeQuery } = require("../models/connect_sql");
 const Event = require("../models/event");
-const Promotional = require("../models/promotional")
+const Promotional = require("../models/promotional");
 class PromotionService{
     async getAll(){
         const result = await executeQuery(`
