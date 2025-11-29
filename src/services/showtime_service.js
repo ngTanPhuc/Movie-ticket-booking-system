@@ -4,24 +4,6 @@ const { search } = require("../routes/showtime_route");
 
 class ShowtimeService{
     async getAll(movie_id, date, cinema_id){
-        /*
-        let opWHERE = "";
-        let opDate = "";
-        let opCinemaId = "";
-        if (date){
-            opWHERE = " WHERE";
-            opDate = ` ngay_chieu=${date}`;            
-        }
-        if (cinema_id){
-            opWHERE = " WHERE";
-            opCinemaId = ` ma_rap=${cinema_id}`;
-        }
-        const result = await executeQuery(`SELECT ma_suat_chieu, trang_thai, ngay_chieu, 
-                                            gio_bat_dau, gio_ket_thuc, ten_phong, ten_rap, dia_chi
-                                            FROM SuatChieu NATURAL JOIN PhongChieu 
-                                            NATURAL JOIN RapChieu${opWHERE}${opDate}${opCinemaId}`, [opWHERE, opDate, opCinemaId]);
-        return result.map(row => new Showtime(row));
-        */
        let query = `
             SELECT ma_suat_chieu, trang_thai, ngay_chieu, gio_bat_dau, gio_ket_thuc, ten_phong, ten_rap, dia_chi
             FROM SuatChieu NATURAL JOIN PhongChieu 
@@ -54,7 +36,6 @@ class ShowtimeService{
         return result.map(row => new Showtime(row));
     }
     async getById(showtime_id){
-        console.log("service get by id");
         const room_result = await executeQuery(`
             SELECT ma_phong, ten_phong 
             FROM SuatChieu NATURAL JOIN PhongChieu 
@@ -104,8 +85,6 @@ class ShowtimeService{
     }
     // UTILS
     createSeatInfo(row){
-        console.log
-        console.log(row);
         return {
             room_id: row.ma_phong,
             seat_row: row.hang_ghe,
