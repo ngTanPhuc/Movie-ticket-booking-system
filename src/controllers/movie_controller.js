@@ -1,5 +1,4 @@
-//const { executeQuery } = require("../models/connect_sql");
-const MovieService = require("../services/movie_service")
+const MovieService = require("../services/movie_service");
 
 class MovieController {
     async getAll(req, res){
