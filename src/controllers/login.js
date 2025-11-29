@@ -4,7 +4,7 @@ class Login {
   async show(req, res) {
     try {
       // render HTML instead
-      const movies = await executeQuery(`SELECT * FROM MOVIE;`);
+      const movies = await executeQuery(`SELECT * FROM Phim;`);
       res.json({ success: true, data: movies });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message });

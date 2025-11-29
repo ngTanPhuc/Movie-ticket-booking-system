@@ -11,11 +11,11 @@ const checkLogin = async (username, password) => {
         message: "Tài khoản và mật khẩu không được để trống",
       };
     }
-    const user = undefined;
-    // Truy vấn lấy thông tin id , role : nếu có sử dụng và lưu vào user
+    const account = undefined;
+    // Truy vấn lấy thông tin so_dien_thoai , ho_ten luu vao TaiKhoan
 
-    // nếu truy vấn không tồn tại user và trả về lỗi ngay bỏ qua hàm thực thi controlller
-    if (!user) {
+    // nếu truy vấn không tồn tại TaiKhoan và trả về lỗi ngay bỏ qua hàm thực thi controlller
+    if (!account) {
       return {
         success: false,
         message: "Tài khoản hoặc mật khẩu không chính xác",
@@ -25,8 +25,8 @@ const checkLogin = async (username, password) => {
     // Tạo token
     const token = jwt.sign(
       {
-        id: user.id,
-        role: user.role,
+        sdt: account.so_dien_thoai,
+        name: account.ho_ten,
       },
       JWT_SECRET,
       { expiresIn: "24h" }
@@ -36,9 +36,9 @@ const checkLogin = async (username, password) => {
     return {
       success: true,
       message: "Đăng nhập thành công",
-      token: token,
-      id: user.id, // tùy yêu cầu có cần k
-      role: user.role, // tùy yêu cầu có cần k
+      token: token, // bat buoc 
+      sdt: account.so_dien_thoai, // tùy yêu cầu
+      name: account.ho_ten, // tùy yêu cầu
     };
   } catch (err) {
     return {
