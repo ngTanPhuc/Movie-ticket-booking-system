@@ -9,7 +9,7 @@ class BookingService{
         const PRICE = 75000;
         // Bước 0: kiểm tra tính hợp lệ của các thành phần
         let total = 0;
-        for (const s of seats){
+        for (const s in seats){
             const seatCheck = await executeQuery(`
                 SELECT R.ma_phong, hang_ghe, so_ghe, loai_ghe, S.trang_thai 
                 FROM SuatChieu NATURAL JOIN PhongChieu R 
@@ -28,17 +28,17 @@ class BookingService{
             }
         }
         // Bước 1: create bill
-        let result = executeQuery(`
+        let result = await executeQuery(`
             INSERT INTO HoaDon (so_dien_thoai, ngay_tao, tong_tien)
             VALUES (?, ?, ?)
         `, [userPhone, this.getCurrentDateTimeStr(), total]);
         // get bill id
-        result = executeQuery("SELECT ma_hoa_don FROM HoaDon ORDER BY ma_hoa_don DESC LIMIT 1");
+        result = await executeQuery("SELECT ma_hoa_don FROM HoaDon ORDER BY ma_hoa_don DESC LIMIT 1");
         const billId = result[0].ma_hoa_don;
 
         // bước 2: create ticket
         // get info to create ticket
-        result = executeQuery(`
+        result = await executeQuery(`
             SELECT ten_phim, ma_suat_chieu, ngay_chieu, gio_ket_thuc, ma_phong
             FROM SuatChieu NATURAL JOIN Phim
             WHERE ma_suat_chieu=?
@@ -49,16 +49,16 @@ class BookingService{
         const expireTime = result[0].gio_ket_thuc;
         const roomId = result[0].ma_phong;
         // add
-        for (const s of seats){
-            result = executeQuery(`
+        for (const s in seats){
+            result = await executeQuery(`
                 INSERT INTO Ve
                 VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)    
             `, [movieName, s.price, creationDatetime, expireDate + " " + expireTime, billId, roomId, s.row, s.col, showtimeId]);
         }
 
         // Bước 3: create food if any
-        for (const f of foods){
-            result = executeQuery(`
+        for (const f in foods){
+            result = await executeQuery(`
                 INSERT INTO DoAn (ma_hoa_don, ten_do_an, gia_ban)
                 VALUES (?, ?, ?)    
             `, [billId, f.name, f.price*f.quantity]);
@@ -68,20 +68,24 @@ class BookingService{
             // implement voucher logic into price.
             // Default: 10% off
             total *= 0.9;
-            result = executeQuery(`
+            result = await executeQuery(`
                 UPDATE HoaDon
                 SET tong_tien=?
                 WHERE ma_hoa_don=?
                 `, [total, billId]);
-            result = executeQuery(`
+            result = await executeQuery(`
                 UPDATE Voucher
                 SET trang_thai='used'
                 WHERE ma_voucher=?    
             `, [voucherId]);
         }
         
+        const totalTable = await executeQuery(`
+            SELECT tinh_tong_hoa_don(?) AS total
+        `, [billId]);
+        const totalNumber = totalTable[0].total;
         // Tạo Bill object để return 
-        return new Bill(billId, userPhone, creationDatetime, total);       
+        return new Bill(billId, userPhone, creationDatetime, totalNumber);       
         
     }
     async getHistory(phone){

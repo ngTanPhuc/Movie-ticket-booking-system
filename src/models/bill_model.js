@@ -1,5 +1,5 @@
 class Bill {
-    constructor(data){
+    constructor(id, phone, creationDatetime, total){
         this.id = id;
         this.phone = phone;
         this.creationDatetime = creationDatetime;

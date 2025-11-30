@@ -1,4 +1,4 @@
-const login = require("./login");
+const login = require("./login_route");
 const movieRouter = require("./movie_route");
 const cinemaRouter = require("./cinema_route");
 const showtimeRouter = require("./showtime_route");
@@ -7,7 +7,7 @@ const otherRouter = require("./other_route");
 const promotionRouter = require("./promotion_route");
 const adminRouter = require("./admin_route");
 function router(app) {
-  app.use("/login", login);
+  app.use("/auth", login);
   app.use("/cinemas", cinemaRouter);
   app.use("/movies", movieRouter);
   app.use("/showtimes", showtimeRouter);

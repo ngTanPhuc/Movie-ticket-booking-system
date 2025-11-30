@@ -58,7 +58,7 @@ class ShowtimeService{
         /*
         Expected:
         {
-        "showtime_id": "SHO00001",
+        "showtime_id": "SCH00001",
         "room": { "room_id": "...", "name": "..." },
         "seats": [
             {
@@ -85,13 +85,18 @@ class ShowtimeService{
     }
     // UTILS
     createSeatInfo(row){
+        const priceMap = {
+            'normal': 75000,
+            'vip': 100000,
+            'couple': 150000
+        };
         return {
             room_id: row.ma_phong,
             seat_row: row.hang_ghe,
             seat_column: row.so_ghe,
             seat_type: row.loai_ghe,
             state: row.trang_thai,
-            //price:
+            price: priceMap[row.loai_ghe] || 75000
         }
     }
 }

@@ -163,7 +163,7 @@ class AdminService{
     async updateShowtime(id, roomId, movieId, date, startTime, endTime){
         const fieldMap = {
             roomId: 'ma_phong', 
-            movieId: 'ma_rap',
+            movieId: 'ma_phim',
             date: 'ngay_chieu',
             startTime: 'gio_bat_dau',
             endTime: 'gio_ket_thuc'            

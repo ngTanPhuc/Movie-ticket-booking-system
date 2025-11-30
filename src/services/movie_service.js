@@ -23,6 +23,7 @@ class MovieService{
         const actors = await executeQuery(`SELECT ten_dien_vien FROM DienVien WHERE ma_phim='${id}'`);
         const ratings = await executeQuery(`SELECT COUNT(*) AS count, SUM(so_sao) AS total_stars FROM DanhGiaPhim WHERE ma_phim='${id}'`);
         const reviews = await executeQuery(`SELECT noi_dung_danh_gia FROM DanhGiaPhim WHERE ma_phim='${id}'`);
+        
         let avgRating = 0;
         if (ratings.length > 0){
             avgRating = ratings[0].total_stars / ratings[0].count;

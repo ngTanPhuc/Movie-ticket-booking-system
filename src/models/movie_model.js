@@ -10,21 +10,36 @@ class Movie {
         this.language = data.ngon_ngu;
         this.status = data.trang_thai;
         this.summary = data.tom_tat;
+        this.image = data.hinh_anh;
     }
     // Nếu muốn format lại dates
     // Giả sử format date gốc là yy-mm-ddThh:mm:ss
     toJSON() {
+        // return {
+        //     id: this.id,
+        //     title: this.title,
+        //     duration: this.duration,
+        //     releaseDate: this.releaseDate?.toISOString().split('T')[0], // Format: YYYY-MM-DD
+        //     endDate: this.endDate?.toISOString().split('T')[0],
+        //     ageRating: this.ageRating,
+        //     trailer: this.trailer,
+        //     language: this.language,
+        //     status: this.status,
+        //     summary: this.summary,
+        //     image: this.image
+        // };
         return {
-            id: this.id,
-            title: this.title,
+            movie_id: this.id,
+            name: this.title,
             duration: this.duration,
-            releaseDate: this.releaseDate?.toISOString().split('T')[0], // Format: YYYY-MM-DD
-            endDate: this.endDate?.toISOString().split('T')[0],
-            ageRating: this.ageRating,
+            release_date: this.releaseDate,
+            end_date: this.endDate,
+            age_rating: this.ageRating,
             trailer: this.trailer,
             language: this.language,
             status: this.status,
-            summary: this.summary
+            synopsis: this.summary,
+            image: this.image,
         };
     }
 }
