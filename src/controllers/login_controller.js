@@ -29,7 +29,8 @@ class LoginController {
   }
   async getMyInfo(req, res){
     try {
-      const result = await LoginService.getMyInfo();
+      const phone = req.user.phone_number; // From JWT payload
+      const result = await LoginService.getMyInfo(phone);
       res.json({ success: true, data: result });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });

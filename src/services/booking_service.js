@@ -9,7 +9,7 @@ class BookingService{
         const PRICE = 75000;
         // Bước 0: kiểm tra tính hợp lệ của các thành phần
         let total = 0;
-        for (const s in seats){
+        for (const s of seats){
             const seatCheck = await executeQuery(`
                 SELECT R.ma_phong, hang_ghe, so_ghe, loai_ghe, S.trang_thai 
                 FROM SuatChieu NATURAL JOIN PhongChieu R 
@@ -23,7 +23,7 @@ class BookingService{
         }
         // Tổng hợp giá tiền
         if (foods){
-            for (const f in foods){
+            for (const f of foods){
                 total += f.price;
             }
         }
@@ -43,13 +43,13 @@ class BookingService{
             FROM SuatChieu NATURAL JOIN Phim
             WHERE ma_suat_chieu=?
         `, [showtimeId]);
-        const movieName = result[0].ma_suat_chieu;
+        const movieName = result[0].ma_phim;
         const creationDatetime = this.getCurrentDateTimeStr();
         const expireDate = result[0].ngay_chieu;
         const expireTime = result[0].gio_ket_thuc;
         const roomId = result[0].ma_phong;
         // add
-        for (const s in seats){
+        for (const s of seats){
             result = await executeQuery(`
                 INSERT INTO Ve
                 VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)    
@@ -57,7 +57,7 @@ class BookingService{
         }
 
         // Bước 3: create food if any
-        for (const f in foods){
+        for (const f of foods){
             result = await executeQuery(`
                 INSERT INTO DoAn (ma_hoa_don, ten_do_an, gia_ban)
                 VALUES (?, ?, ?)    

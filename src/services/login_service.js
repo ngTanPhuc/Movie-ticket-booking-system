@@ -40,11 +40,11 @@ class LoginService{
                 role: role
             }
 
-        const secretKey = "hatsune_miku";
+        const JWT_SECRET = process.env.JWT_SECRET || "conchocaobangbopc";
         const userPayload = {
             phone_number: phone
         };
-        const token = jwt.sign(userPayload, secretKey, { expiresIn: '24h' });
+        const token = jwt.sign(userPayload, JWT_SECRET, { expiresIn: '24h' });
 
         return { token, user };
     }
@@ -61,8 +61,7 @@ class LoginService{
             VALUES (?, ?, ?, ?, ?, ?);    
         `, [phone, email, password, fullname, birthdate, gender]);
     }
-    async getMyInfo(){
-        // đây là ai? làm sao biết để return?
+    async getMyInfo(phone){
         const result = await executeQuery(`
             SELECT * FROM TaiKhoan WHERE so_dien_thoai=? 
         `, [phone]);
